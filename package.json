@@ -1,0 +1,24 @@
+{
+  "name": "10130130",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win64": "electron-builder --win portable --x64"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^23.1.4"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.6.3"
+  },
+  "build": {
+    "appId": "com.tantan2.pmz671712",
+    "productName": "자소분리 해결",
+    "win": {
+    }
+  }
+}
