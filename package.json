@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "build:win64": "electron-builder --win portable --x64",
-    "build:osx": "build --mac"
+    "build:osx": "electron-builder --mac"
   },
   "author": "",
   "license": "ISC",
