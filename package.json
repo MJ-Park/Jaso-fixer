@@ -1,7 +1,7 @@
 {
-  "name": "10130130",
+  "name": "Jaso-fixer",
   "version": "1.0.0",
-  "description": "",
+  "description": "맥OS에서 작성한 파일의 제목이 윈도우에서 깨져 보이는 현상 수정하는 프로그램",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -17,7 +17,7 @@
   },
   "build": {
     "appId": "com.tantan2.pmz671712",
-    "productName": "자소분리 해결",
+    "productName": "Jaso-fixer",
     "win": {
     }
   }

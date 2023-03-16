@@ -8,8 +8,9 @@ let mainWindow;
 
 function createWindow () {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 500,
+    height: 380,
+    resizable: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -46,17 +47,43 @@ ipcMain.on('ondragover', (event, filePath) => {
 });
 
 ipcMain.on('ondrop', (event, filePath) => {
-    const oldPath = filePath;
+  const oldPath = filePath;
+  
+  // 폴더인 경우
+  if (fs.lstatSync(filePath).isDirectory()) {
+    const files = fs.readdirSync(filePath);
+    files.forEach(file => {
+      const oldFilePath = path.join(filePath, file);
+      // const newFilePath = path.join(path.dirname(filePath), normalizeFileName(file));
+      const newFilePath = path.join(filePath, normalizeFileName(file));
+      fs.renameSync(oldFilePath, newFilePath);
+    });
+  } else { // 파일인 경우
     const oldFileName = path.basename(filePath);
-    
-    
-    const newFileName = oldFileName.normalize('NFC');
-    console.log('normalized :  ' ,`${newFileName}` );
+    const newFileName = normalizeFileName(oldFileName);
     const newPath = path.join(path.dirname(filePath), newFileName);
 
-    fs.rename(oldPath, newPath, function (err) {
-        if (err) throw err
-        console.log('renamed!')
-    })
-})
+    fs.renameSync(oldPath, newPath);
+  }
+
+  console.log('renamed!');
+});
+
+function normalizeFileName(fileName) {
+  return fileName.normalize('NFC');
+}
+
+// ipcMain.on('ondrop', (event, filePath) => {
+//     const oldPath = filePath;
+//     const oldFileName = path.basename(filePath);
+    
+//     const newFileName = oldFileName.normalize('NFC');
+//     console.log('normalized :  ' ,`${newFileName}` );
+//     const newPath = path.join(path.dirname(filePath), newFileName);
+
+//     fs.rename(oldPath, newPath, function (err) {
+//         if (err) throw err
+//         console.log('renamed!')
+//     })
+// })
     
