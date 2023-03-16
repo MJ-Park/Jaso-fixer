@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build:win64": "electron-builder --win portable --x64"
+    "build:win64": "electron-builder --win portable --x64",
+    "build:osx": "build --mac"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,11 @@
   "build": {
     "appId": "com.tantan2.pmz671712",
     "productName": "Jaso-fixer",
-    "win": {}
+    "win": {},
+    "mac": {
+      "target": [
+        "default"
+      ]
+    }
   }
 }
