@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
-const iconv = require('iconv-lite');
 const { dirname } = require('path');
 
 let mainWindow;
@@ -46,44 +45,46 @@ ipcMain.on('ondragover', (event, filePath) => {
   event.preventDefault();
 });
 
+// ipcMain.on('ondrop', (event, filePath) => {
+//   const oldPath = filePath;
+  
+//   // 폴더인 경우
+//   if (fs.lstatSync(filePath).isDirectory()) {
+//     const files = fs.readdirSync(filePath);
+//     files.forEach(file => {
+//       const oldFilePath = path.join(filePath, file);
+//       const newFilePath = path.join(filePath, normalizeFileName(file));
+//       fs.renameSync(oldFilePath, newFilePath);
+//     });
+//   } else { // 파일인 경우
+//     const oldFileName = path.basename(filePath);
+//     const newFileName = normalizeFileName(oldFileName);
+//     const newPath = path.join(path.dirname(filePath), newFileName);
+
+//     fs.renameSync(oldPath, newPath);
+//   }
+// });
+
 ipcMain.on('ondrop', (event, filePath) => {
   const oldPath = filePath;
-  
-  // 폴더인 경우
-  if (fs.lstatSync(filePath).isDirectory()) {
-    const files = fs.readdirSync(filePath);
-    files.forEach(file => {
-      const oldFilePath = path.join(filePath, file);
-      // const newFilePath = path.join(path.dirname(filePath), normalizeFileName(file));
-      const newFilePath = path.join(filePath, normalizeFileName(file));
-      fs.renameSync(oldFilePath, newFilePath);
-    });
-  } else { // 파일인 경우
-    const oldFileName = path.basename(filePath);
-    const newFileName = normalizeFileName(oldFileName);
-    const newPath = path.join(path.dirname(filePath), newFileName);
-
-    fs.renameSync(oldPath, newPath);
-  }
-
-  console.log('renamed!');
+  myRename(filePath);
 });
 
 function normalizeFileName(fileName) {
   return fileName.normalize('NFC');
 }
 
-// ipcMain.on('ondrop', (event, filePath) => {
-//     const oldPath = filePath;
-//     const oldFileName = path.basename(filePath);
-    
-//     const newFileName = oldFileName.normalize('NFC');
-//     console.log('normalized :  ' ,`${newFileName}` );
-//     const newPath = path.join(path.dirname(filePath), newFileName);
+function myRename(fileName) {
+  if (fs.lstatSync(fileName).isDirectory()) {
+    const files = fs.readdirSync(fileName);
+    files.forEach(file => {
+      myRename(path.join(fileName,file));
+    })
+  } else { // 파일인 경우
+    const oldFileName = path.basename(fileName);
+    const newFileName = normalizeFileName(oldFileName);
+    const newPath = path.join(path.dirname(fileName), newFileName);
 
-//     fs.rename(oldPath, newPath, function (err) {
-//         if (err) throw err
-//         console.log('renamed!')
-//     })
-// })
-    
+    fs.renameSync(fileName, newPath);
+  }
+}
