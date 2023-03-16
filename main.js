@@ -45,26 +45,6 @@ ipcMain.on('ondragover', (event, filePath) => {
   event.preventDefault();
 });
 
-// ipcMain.on('ondrop', (event, filePath) => {
-//   const oldPath = filePath;
-  
-//   // 폴더인 경우
-//   if (fs.lstatSync(filePath).isDirectory()) {
-//     const files = fs.readdirSync(filePath);
-//     files.forEach(file => {
-//       const oldFilePath = path.join(filePath, file);
-//       const newFilePath = path.join(filePath, normalizeFileName(file));
-//       fs.renameSync(oldFilePath, newFilePath);
-//     });
-//   } else { // 파일인 경우
-//     const oldFileName = path.basename(filePath);
-//     const newFileName = normalizeFileName(oldFileName);
-//     const newPath = path.join(path.dirname(filePath), newFileName);
-
-//     fs.renameSync(oldPath, newPath);
-//   }
-// });
-
 ipcMain.on('ondrop', (event, filePath) => {
   const oldPath = filePath;
   myRename(filePath);
