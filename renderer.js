@@ -1,5 +1,20 @@
 // renderer.js
 
+function toast(string) {
+  const toast = document.getElementById("toast");
+
+  toast.classList.contains("reveal") ?
+      (clearTimeout(removeToast), removeToast = setTimeout(function () {
+          document.getElementById("toast").classList.remove("reveal")
+      }, 1000)) :
+      removeToast = setTimeout(function () {
+          document.getElementById("toast").classList.remove("reveal")
+      }, 1000)
+  toast.classList.add("reveal"),
+      toast.innerText = string
+}
+let removeToast;
+
 const { ipcRenderer } = require('electron');
 
 const dropArea = document.getElementById('drop-area');
@@ -16,6 +31,8 @@ dropArea.addEventListener('drop', (event) => {
     const filePath = file.path;
     ipcRenderer.send('ondrop', filePath);
   });
+
+  toast("변환이 완료되었습니다.");
 });
 
 dropArea.addEventListener('dragstart', (event) => {
