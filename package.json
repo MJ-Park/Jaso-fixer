@@ -1,6 +1,6 @@
 {
   "name": "Jaso-fixer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "맥OS에서 작성한 파일의 제목이 윈도우에서 깨져 보이는 현상 수정하는 프로그램",
   "main": "main.js",
   "scripts": {
